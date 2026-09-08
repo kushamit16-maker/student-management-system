@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🎓 Student Management System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2563eb;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logout {
+            background: #dc2626;
+            color: white;
+            padding: 10px 16px;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 10px 18px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+
+        .stat-card p {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #2563eb;
+            color: white;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 800px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            table {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top">
+        <h1>🎓 Student Management System</h1>
+        <a href="/logout" class="logout">Logout</a>
+    </div>
+
+    <div class="card">
+        <h2>➕ Add Student</h2>
+
+        <form action="/add" method="POST">
+
+            <input type="text" name="name" placeholder="Student Name" required>
+
+            <input type="text" name="roll_no" placeholder="Roll Number" required>
+
+            <input type="email" name="email" placeholder="Email">
+
+            <input type="text" name="course" placeholder="Course">
+
+            <input type="number" name="attendance" placeholder="Attendance %" step="0.1">
+
+            <input type="number" name="marks" placeholder="Marks" step="0.1">
+
+            <button type="submit">Add Student</button>
+
+        </form>
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat-card">
+            <h3>👨‍🎓 Total Students</h3>
+            <p>{{ total_students }}</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>📊 Average Marks</h3>
+            <p>{{ average_marks }}</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>📅 Average Attendance</h3>
+            <p>{{ average_attendance }}%</p>
+        </div>
+
+        <div class="stat-card">
+            <h3>⚠️ Low Attendance</h3>
+            <p>{{ low_attendance }}</p>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🔍 Search Student</h2>
+
+        <form action="/search" method="GET" class="search-box">
+
+            <input
+                type="text"
+                name="q"
+                placeholder="Search by name or roll number"
+            >
+
+            <button type="submit">Search</button>
+
+            <a href="/">Clear</a>
+
+        </form>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>👨‍🎓 Student Records</h2>
+
+        <table>
+
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Email</th>
+                <th>Course</th>
+                <th>Attendance</th>
+                <th>Marks</th>
+                <th>Grade</th>
+                <th>Action</th>
+            </tr>
+
+            {% for student in students %}
+
+            <tr>
+
+                <td>{{ student[0] }}</td>
+
+                <td>{{ student[1] }}</td>
+
+                <td>{{ student[2] }}</td>
+
+                <td>{{ student[3] }}</td>
+
+                <td>{{ student[4] }}</td>
+
+                <td>
+
+                    {{ student[5] }}%
+
+                    {% if student[5] < 75 %}
+
+                        <br>
+                        <small style="color:red;">
+                            ⚠️ Low Attendance
+                        </small>
+
+                    {% else %}
+
+                        <br>
+                        <small style="color:green;">
+                            ✅ Good Attendance
+                        </small>
+
+                    {% endif %}
+
+                </td>
+
+                <td>{{ student[6] }}</td>
+
+                <td>
+
+                    {% if student[6] >= 90 %}
+                        🟢 A+
+                    {% elif student[6] >= 80 %}
+                        🟢 A
+                    {% elif student[6] >= 70 %}
+                        🔵 B
+                    {% elif student[6] >= 60 %}
+                        🟡 C
+                    {% elif student[6] >= 50 %}
+                        🟠 D
+                    {% else %}
+                        🔴 Fail
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    <a href="/student/{{ student[0] }}">👤 Details</a>
+                    |
+                    <a href="/id-card/{{ student[0] }}">🪪 ID Card</a>
+                    |
+                    <a href="/edit/{{ student[0] }}">✏️ Edit</a>
+                    |
+                    <a
+                        href="/delete/{{ student[0] }}"
+                        onclick="return confirm('Are you sure you want to delete this student?')"
+                    >
+                        🗑️ Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="9">No students found.</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
