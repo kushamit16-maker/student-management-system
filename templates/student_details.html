@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Details</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 40px;
+        }
+
+        .profile {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2563eb;
+        }
+
+        .detail {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            font-size: 18px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="profile">
+
+    <h1>🎓 Student Details</h1>
+
+    <div class="detail">
+        <strong>Name:</strong> {{ student[1] }}
+    </div>
+
+    <div class="detail">
+        <strong>Roll Number:</strong> {{ student[2] }}
+    </div>
+
+    <div class="detail">
+        <strong>Email:</strong> {{ student[3] }}
+    </div>
+
+    <div class="detail">
+        <strong>Course:</strong> {{ student[4] }}
+    </div>
+
+    <div class="detail">
+        <strong>Attendance:</strong> {{ student[5] }}%
+    </div>
+
+    <div class="detail">
+        <strong>Marks:</strong> {{ student[6] }}
+    </div>
+
+    <a href="/" class="back">⬅ Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>
